@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using Amaoto;
+﻿using Amaoto;
 using Koioto.Support;
 using Koioto.Support.FileReader;
 using Koioto.Support.Log;
 using Space.AioiLight.LRCDotNet;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Koioto.SamplePlugin.SyncLyrics
 {
@@ -14,17 +13,19 @@ namespace Koioto.SamplePlugin.SyncLyrics
     {
         public override string Name => "SyncLyrics";
         public override string[] Creator => new string[] { "AioiLight" };
-        public override string Version => "1.1";
+        public override string Version => "2.0";
         public override string Description => "Show sync lyrics (*.lrc) at playing screen.";
 
         public override void OnEnable()
         {
-            LyricFont = new FontRender(new FontFamily(Bridge.Settings.Font), 36, 8);
+            Theme = Util.ThemeInit<Theme>(Path.Combine(Bridge.PluginDir, @"SyncLyrics.json"));
+            LyricFont = Util.GetFontRenderFromTheme(Theme.LyricFont);
             base.OnEnable();
         }
 
         public override void OnDisable()
         {
+            Theme = null;
             Lyric = null;
             LyricFont = null;
             LyricAndTimings = null;
@@ -82,8 +83,13 @@ namespace Koioto.SamplePlugin.SyncLyrics
 
                 for (var l = 0; l < lyric.Count(); l++)
                 {
-                    // convert ms to ns
+                    // convert ms to us
                     var timing = (long)(lyric[l].Time.TotalMilliseconds * 1000.0);
+                    // apply offset
+                    if (Theme.Offset != 0)
+                    {
+                        timing += Theme.Offset;
+                    }
                     var tex = LyricFont.GetTexture(lyric[l].Text);
                     LyricAndTimings[section][l] = new LyricAndTiming(tex, timing);
                 }
@@ -102,8 +108,10 @@ namespace Koioto.SamplePlugin.SyncLyrics
         {
             if (Showing != null)
             {
-                Showing.ReferencePoint = ReferencePoint.BottomCenter;
-                Showing.Draw(ScreenSize.Width / 2, ScreenSize.Height);
+                // Apply theme
+                Util.SetThemeToTexture(Showing, Theme.Lyric);
+                Showing.ScaleX *= Util.GetProperScaleX(Showing, Theme.MaximumWidth);
+                Showing.Draw(Theme.Lyric.X, Theme.Lyric.Y);
             }
         }
 
@@ -171,11 +179,6 @@ namespace Koioto.SamplePlugin.SyncLyrics
             }
         }
 
-        public override void OnChangedResolution(Size size)
-        {
-            ScreenSize = size;
-        }
-
         private LyRiCs[] Lyric;
         private FontRender LyricFont;
         private int SectionIndex;
@@ -183,7 +186,8 @@ namespace Koioto.SamplePlugin.SyncLyrics
         private Texture Showing;
         private LyricAndTiming[][] LyricAndTimings;
         private bool ShowedFirstLyric;
-        private Size ScreenSize;
+
+        private Theme Theme;
 
         private long Lag;
         private long Counter;

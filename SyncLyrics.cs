@@ -110,7 +110,7 @@ namespace Koioto.SamplePlugin.SyncLyrics
             {
                 // Apply theme
                 Util.SetThemeToTexture(Showing, Theme.Lyric);
-                Showing.ScaleX *= Util.GetProperScaleX(Showing, Theme.MaximumWidth);
+                Showing.ScaleX *= AmaotoUtil.GetProperScaleX(Showing, Theme.MaximumWidth);
                 Showing.Draw(Theme.Lyric.X, Theme.Lyric.Y);
             }
         }

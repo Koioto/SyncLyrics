@@ -36,7 +36,7 @@ namespace Koioto.SamplePlugin.SyncLyrics
             {
                 Font = new Font()
                 {
-                    FontSize = 36,
+                    FontSize = 48,
                     EdgeSize = 8
                 },
                 ForeColor = new Color()

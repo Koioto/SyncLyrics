@@ -18,7 +18,7 @@ namespace Koioto.SamplePlugin.SyncLyrics
 
         public override void OnEnable()
         {
-            Theme = Util.ThemeInit<Theme>(Path.Combine(Bridge.PluginDir, @"SyncLyrics.json"));
+            Theme = Util.ThemeInit<Theme>(Path.Combine(Bridge.PluginsDir, @"SyncLyrics.json"));
             LyricFont = Util.GetFontRenderFromTheme(Theme.LyricFont);
             base.OnEnable();
         }

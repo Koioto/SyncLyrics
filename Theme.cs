@@ -57,5 +57,10 @@ namespace Koioto.SamplePlugin.SyncLyrics
         /// Maximum width.
         /// </summary>
         public int MaximumWidth { get; set; } = 1520;
+
+        /// <summary>
+        /// Custom font.
+        /// </summary>
+        public string CustomFont { get; set; } = null;
     }
 }

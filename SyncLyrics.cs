@@ -9,17 +9,17 @@ using System.Linq;
 
 namespace Koioto.SamplePlugin.SyncLyrics
 {
-    public class SyncLyrics : Koioto.Plugin.Overlay
+    public class SyncLyrics : Koioto.Plugin.KoiotoPlugin
     {
         public override string Name => "SyncLyrics";
         public override string[] Creator => new string[] { "AioiLight" };
-        public override string Version => "2.0";
+        public override string Version => "3.0";
         public override string Description => "Show sync lyrics (*.lrc) at playing screen.";
 
         public override void OnEnable()
         {
             Theme = Util.ThemeInit<Theme>(Path.Combine(Bridge.PluginsDir, @"SyncLyrics.json"));
-            LyricFont = Util.GetFontRenderFromTheme(Theme.LyricFont);
+            LyricFont = Util.GetCustomFontRenderFromTheme(Theme.CustomFont, Theme.LyricFont);
             base.OnEnable();
         }
 
@@ -31,7 +31,7 @@ namespace Koioto.SamplePlugin.SyncLyrics
             LyricAndTimings = null;
             base.OnDisable();
         }
-        public override void OnSelectedSong(Playable[] playable, ChartInfo chartInfo, PlayLog[] playLogs)
+        public override void OnSelectedSong(Playable[] playable, ChartMetadata chartInfo, PlayLog[] playLogs)
         {
             // Use player1's Playable
             var p = playable[0];

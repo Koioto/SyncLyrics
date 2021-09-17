@@ -24,7 +24,7 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -45,8 +45,8 @@
       <HintPath>..\Lib\KoiotoSupport.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="LRCDotNet, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LRCDotNet.1.2.0\lib\net40\LRCDotNet.dll</HintPath>
+    <Reference Include="LRCDotNet, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LRCDotNet.1.3.0\lib\net40\LRCDotNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
